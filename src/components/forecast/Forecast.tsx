@@ -16,7 +16,6 @@ export const Forecast = ({ weatherSummaries, onHandleSelectDay, selectedDayIndex
             <div className="shrink-0 rounded-xl border bg-card p-4">
                 <div className="mb-3 flex items-center justify-between">
                     <h2 className="text-sm font-semibold">Daily forecast</h2>
-                    <span className="text-xs text-muted-foreground">Select a day for hourly details</span>
                 </div>
 
                 <WeatherSummary

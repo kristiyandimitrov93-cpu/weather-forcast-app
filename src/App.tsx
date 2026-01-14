@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import { useGeolocation } from './hooks/useGeolocation'
+import { useGeolocation, type LocationCoordinates } from './hooks/useGeolocation'
 import { Button } from "@/components/ui/button"
 import { useWeather } from './hooks/useWeather'
 import { Forecast } from './components/forecast/Forecast'
@@ -9,24 +9,47 @@ import { Input } from './components/ui/input'
 
 
 function App() {
+  const [coordinates, setCoordinates] = useState<LocationCoordinates | null>(null);
+  const [city, setCity] = useState<string | null>(null);
+  const [cityQuery, setCityQuery] = useState('')
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
-  const [city, setCity] = useState("");
 
-
-  const handleSelectDay = (index: number) => {
-    debugger
-    setSelectedDayIndex(selectedDayIndex === index ? null : index);
-  };
-  const { isLoading, error, location, getLocation } = useGeolocation()
-  console.log(isLoading)
-  console.log(error)
-  console.log(location)
-
-
+  const { location, getLocation } = useGeolocation()
   const {
     data,
     isLoading: isWeatherLoading
-  } = useWeather(location || undefined);
+  } = useWeather(coordinates || undefined, city || undefined);
+
+  useEffect(() => {
+    if (location) {
+      setCity("");
+      setCoordinates(location);
+      setSelectedDayIndex(null);
+    }
+  }, [location]);
+
+
+  const handleSelectDay = (index: number) => {
+
+    setSelectedDayIndex(selectedDayIndex === index ? null : index);
+  };
+
+  const handleOnCityClick = () => {
+    setCoordinates(null);
+    setCity(cityQuery.trim());
+    setSelectedDayIndex(null);
+  }
+
+  const handleUseMyLocationClick = () => {
+    setSelectedDayIndex(null);
+    setCity(null);
+    setCityQuery('')
+    getLocation()
+  }
+
+
+
+
 
   return (
     <>
@@ -36,11 +59,11 @@ function App() {
           <div className="flex gap-2">
             <Input
               placeholder="Enter city (e.g. Sofia)"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              value={cityQuery}
+              onChange={(e) => setCityQuery(e.target.value)}
               className="w-48"
             />
-            <Button variant="outline" disabled={city === ""} onClick={() => city.trim() && setCity(city.trim())}>
+            <Button disabled={cityQuery === ""} onClick={handleOnCityClick}>
               Search
             </Button>
           </div>
@@ -55,14 +78,14 @@ function App() {
           </div>
 
 
-          <Button variant="outline" onClick={getLocation}>
+          <Button onClick={handleUseMyLocationClick} >
             Use my location
           </Button>
         </div>
 
 
         <div className="flex-1 overflow-hidden p-4">
-          {!isWeatherLoading && <Forecast weatherSummaries={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
+          {!isWeatherLoading && data && <Forecast weatherSummaries={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
         </div>
 
 

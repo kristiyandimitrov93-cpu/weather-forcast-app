@@ -3,14 +3,45 @@ import type { Forecast5Response } from "@/types/openWeather";
 const API_KEY = '31f6815f4687290c1904ada0f6d80bfd'
 const BASE_URL = 'https://api.openweathermap.org/data/2.5'
 
+
+export class WeatherApiError extends Error {
+    code: string | number;
+
+    constructor(message: string, code: string | number) {
+        super(message);
+        this.name = "WeatherApiError";
+        this.code = code;
+    }
+}
+
 export const fetchByCoordinates = async (latitude: number, longitude: number): Promise<Forecast5Response> => {
     const url = `${BASE_URL}/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`;
     const response = await fetch(url);
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error('Failed to fetch weather data for' + data.cod)
+        throw new WeatherApiError(
+            data.message || "Failed to fetch weather data",
+            data.cod || response.status
+        );
     }
+
+    return data as Forecast5Response
+}
+
+
+export const fetchByCity = async (city: string): Promise<Forecast5Response> => {
+    const url = `${BASE_URL}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new WeatherApiError(
+            data.message || "Failed to fetch weather data",
+            data.cod || response.status
+        );
+    }
+
 
     return data as Forecast5Response
 }

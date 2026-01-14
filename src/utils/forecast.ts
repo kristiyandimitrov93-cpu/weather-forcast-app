@@ -19,8 +19,6 @@ export const parseForecastResponse = (forecastEntries
         const temperatures = value.map(item => item.main.temp)
         const maxTemperature = Math.round(Math.max(...temperatures))
         const minTemperature = Math.round(Math.min(...temperatures))
-
-        console.log(getMainWeatherCondition(value))
         forecastSummary.push({
             date,
             dayOfWeek: getDayOfTheWeek(date),
@@ -32,8 +30,7 @@ export const parseForecastResponse = (forecastEntries
         })
     })
 
-    console.log(forecastSummary)
-    console.log(groupedForecastEntries)
+
     return forecastSummary;
 }
 
