@@ -1,19 +1,16 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { useGeolocation } from './hooks/useGeolocation'
 import { Button } from "@/components/ui/button"
 import { useWeather } from './hooks/useWeather'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Forecast } from './components/forecast/Forecast'
+import { Input } from './components/ui/input'
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null);
+  const [city, setCity] = useState("");
 
 
   const handleSelectDay = (index: number) => {
@@ -33,15 +30,42 @@ function App() {
 
   return (
     <>
-      <div className="card">
-        <Button variant="outline" onClick={() => getLocation()}>
-          Use my location
-        </Button>
+      <div className="flex flex-col h-dvh overflow-hidden">
+        <div className="flex items-center gap-4 max-w-xl mx-auto shrink-0">
 
-        {!isWeatherLoading && <Forecast weatherSummaries={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Enter city (e.g. Sofia)"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="w-48"
+            />
+            <Button variant="outline" disabled={city === ""} onClick={() => city.trim() && setCity(city.trim())}>
+              Search
+            </Button>
+          </div>
+
+
+          <div className="flex items-center gap-2">
+            <div className="h-px w-6 bg-border" />
+            <span className="text-xs font-medium text-muted-foreground uppercase">
+              Or
+            </span>
+            <div className="h-px w-6 bg-border" />
+          </div>
+
+
+          <Button variant="outline" onClick={getLocation}>
+            Use my location
+          </Button>
+        </div>
+
+
+        <div className="flex-1 overflow-hidden p-4">
+          {!isWeatherLoading && <Forecast weatherSummaries={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
+        </div>
+
+
       </div>
 
     </>

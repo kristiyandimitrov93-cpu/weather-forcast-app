@@ -8,7 +8,7 @@ interface DayCardProps {
 }
 
 export const WeatherCard = ({ forecast, isSelected, onClick }: DayCardProps) => {
-    const { dayName, dateString, maxTemperature, minTemperature, mainWeather } =
+    const { dayOfWeek, formattedDay, maxTemperature, minTemperature, mainWeather } =
         forecast;
 
     return (
@@ -22,8 +22,8 @@ export const WeatherCard = ({ forecast, isSelected, onClick }: DayCardProps) => 
             tabIndex={0}
         >
             <CardContent className="p-4 text-center flex flex-col h-44">
-                <div className="font-semibold text-foreground">{dayName}</div>
-                <div className="text-sm text-muted-foreground">{dateString}</div>
+                <div className="font-semibold text-foreground">{dayOfWeek}</div>
+                <div className="text-sm text-muted-foreground">{formattedDay}</div>
 
                 <div className="my-2 flex justify-center">
                     <img

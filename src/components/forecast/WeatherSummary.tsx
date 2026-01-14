@@ -3,7 +3,7 @@ import { WeatherCard } from './WeatherCard'
 export interface WeatherSummaryProps {
     weatherSummaries: any[],
     handleSelectDay: (index: number) => void
-    selectedDayIndex: number
+    selectedDayIndex: number | null
 }
 export const WeatherSummary = ({ weatherSummaries, handleSelectDay, selectedDayIndex }: WeatherSummaryProps) => {
 

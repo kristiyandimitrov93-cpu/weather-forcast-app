@@ -1,4 +1,6 @@
 import type { Forecast5Response, ForecastEntry, Weather } from "@/types/openWeather";
+import type { HourlyDetails } from "@/types/weather";
+import { capitalize, formatTime } from "./common";
 
 export const parseForecastResponse = (forecastEntries
     : Forecast5Response) => {
@@ -19,26 +21,48 @@ export const parseForecastResponse = (forecastEntries
         const minTemperature = Math.round(Math.min(...temperatures))
 
         console.log(getMainWeatherCondition(value))
-
-        //min temp
-        //max 
-        //icon
-        //average wind speed
-
-        //items
-
         forecastSummary.push({
             date,
+            dayOfWeek: getDayOfTheWeek(date),
+            formattedDay: date.toLocaleDateString('en-GB'),
             maxTemperature,
             minTemperature,
             mainWeather,
-            hourlyData: value
+            hourlyDetails: getHourlyDetails(value)
         })
     })
 
     console.log(forecastSummary)
     console.log(groupedForecastEntries)
     return forecastSummary;
+}
+
+
+const getDayOfTheWeek = (date: Date) => {
+    const today = new Date()
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    if (isSameDay(today, date)) {
+        return 'Today'
+    }
+
+    if (isSameDay(tomorrow, date)) {
+        return 'Tomorrow'
+    }
+
+
+    return date.toLocaleDateString("en-US", {
+        weekday: "long",
+    });
+}
+
+export function isSameDay(date1: Date, date2: Date): boolean {
+    return (
+        date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate()
+    );
 }
 
 const getGroupedForecastEntries = (forecastEntries: ForecastEntry[]) => {
@@ -69,4 +93,19 @@ const getMainWeatherCondition = (entries: ForecastEntry[]): Weather => {
     })
 
     return closestWeather.weather[0]
+}
+
+const getHourlyDetails = (forecastEntries: ForecastEntry[]): HourlyDetails[] => {
+    return forecastEntries.map((item) => {
+        const { main, weather, dt } = item
+        return {
+            dt,
+            time: formatTime(dt),
+            temp: Math.round(main.temp),
+            feelsLike: Math.round(main.feels_like),
+            icon: weather[0].icon,
+            description: capitalize(weather[0].description)
+        }
+    })
+
 }
