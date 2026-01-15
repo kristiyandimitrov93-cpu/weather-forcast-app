@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🌦️ React Weather Forecast App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, interactive weather forecast app built with **React + TypeScript**. Easily check the weather by city or by using your current location! Get a **5-day forecast** and dive into **hourly weather details** with a clean, responsive UI.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 **Search by City** — Enter any city to view the weather forecast.
+- 📍 **Use My Location** — Automatically fetch weather based on your current geolocation.
+- 📅 **Daily Forecast** — View summarized weather for the next 5 days.
+- ⏰ **Hourly Forecast** — Click on a day to explore hourly temperature, "feels like", and conditions.
+- 📱 **Responsive Design** — Optimized for both desktop and mobile.
 
-## React Compiler
+## 🖼️ Preview
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Coming soon...
 
-## Expanding the ESLint configuration
+## ⚙️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** + **TypeScript**
+- **Custom Hooks** for geolocation and weather data
+- **OpenWeatherMap API**
+- Tailwind CSS (assumed from class names)
+- Modular component structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧠 Components Overview
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `App.tsx`: Main layout and logic for handling search, location, and selected day state:contentReference[oaicite:0]{index=0}.
+- `Forecast.tsx`: Combines daily and hourly views, manages selected day logic:contentReference[oaicite:1]{index=1}.
+- `WeatherSummary.tsx`: Maps daily weather data into interactive cards:contentReference[oaicite:2]{index=2}.
+- `WeatherCard.tsx`: Displays weather summary for an individual day:contentReference[oaicite:3]{index=3}.
+- `HourlyForecast.tsx`: Shows a detailed, scrollable hourly view for selected day:contentReference[oaicite:4]{index=4}.
+- `useGeolocation.ts`: Hook to get current user location.
+- `useWeather.ts`: Hook to fetch weather data (by coordinates or city).
+- `openWeather.ts`: Utility to fetch and format data from OpenWeatherMap API.
+- `common.ts`, `forecast.ts`: Utilities and type definitions.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/react-weather-app.git
+cd react-weather-app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependncies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3. Start the development server
+```bash
+npm run dev
+```
+Then open http://localhost:5173 in your browser.
+
+
+## Project Structure
+```css
+├── components/
+│   ├── forecast/
+│   │   ├── Forecast.tsx
+│   │   ├── WeatherSummary.tsx
+│   │   ├── WeatherCard.tsx
+│   │   └── HourlyForecast.tsx
+├── hooks/
+│   ├── useGeolocation.ts
+│   ├── useWeather.ts
+├── api/
+│   └── openWeather.ts
+├── utils/
+│   ├── forecast.ts
+│   └── common.ts
+├── App.tsx
+├── main.tsx
+```
+
+## 📦 TODO / Improvements
+
+-  **Add more unit and integration tests**
+-  **Better error handling**
+-  **Add unit conversion** (Celsius ↔ Fahrenheit)
+- **Add map integration** for location preview
+- **Add charts** for temperature trends
