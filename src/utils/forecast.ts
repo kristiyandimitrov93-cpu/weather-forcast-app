@@ -2,18 +2,13 @@ import type { Forecast5Response, ForecastEntry, Weather } from "@/types/openWeat
 import type { DailyForecast, HourlyDetails } from "@/types/weather";
 import { capitalize, formatTime } from "./common";
 
-export const parseForecastResponse = (forecastEntries
-    : Forecast5Response): DailyForecast[] => {
+export const parseForecastResponse = (forecastEntries: Forecast5Response): DailyForecast[] => {
 
     const groupedForecastEntries: Map<string, ForecastEntry[]> = getGroupedForecastEntries(forecastEntries.list)
-
-
-
     const dailyForecasts: DailyForecast[] = []
     groupedForecastEntries.forEach((value, key) => {
 
         const date = new Date(key)
-
         const mainWeather = getMainWeatherCondition(value)
 
         const temperatures = value.map(item => item.main.temp)
@@ -86,7 +81,7 @@ const getMainWeatherCondition = (entries: ForecastEntry[]): Weather => {
         const currentClosestDate = new Date(closest.dt * 1000).getHours();
         const entryDate = new Date(entry.dt * 1000).getHours()
         return Math.abs(entryDate - 12) < Math.abs(currentClosestDate - 12) ?
-            closest : entry
+            entry : closest
     })
 
     return closestWeather.weather[0]
