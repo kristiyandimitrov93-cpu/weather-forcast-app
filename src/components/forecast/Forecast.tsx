@@ -1,14 +1,16 @@
+import type { DailyForecast } from "@/types/weather"
 import { HourlyForecast } from "./HourlyForecast"
-import { WeatherSummary } from "./WeatherSummary"
+import { WeeklyForecast } from "./WeeklyForecast"
 
 
 export interface ForecastProps {
-    weatherSummaries: any[]
+    dailyForecasts: DailyForecast[]
     onHandleSelectDay: (index: number) => void
     selectedDayIndex: number | null
 }
-export const Forecast = ({ weatherSummaries, onHandleSelectDay, selectedDayIndex }: ForecastProps) => {
-    const selected = selectedDayIndex !== null ? weatherSummaries[selectedDayIndex] : undefined;
+
+export const Forecast = ({ dailyForecasts, onHandleSelectDay, selectedDayIndex }: ForecastProps) => {
+    const selected = selectedDayIndex !== null ? dailyForecasts[selectedDayIndex] : undefined;
 
     return (
         <div className="flex h-full min-h-0 flex-col gap-3">
@@ -18,8 +20,8 @@ export const Forecast = ({ weatherSummaries, onHandleSelectDay, selectedDayIndex
                     <h2 className="text-sm font-semibold">Daily forecast</h2>
                 </div>
 
-                <WeatherSummary
-                    weatherSummaries={weatherSummaries}
+                <WeeklyForecast
+                    dailyForecasts={dailyForecasts}
                     handleSelectDay={onHandleSelectDay}
                     selectedDayIndex={selectedDayIndex}
                 />

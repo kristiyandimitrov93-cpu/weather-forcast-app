@@ -1,15 +1,15 @@
 import type { Forecast5Response, ForecastEntry, Weather } from "@/types/openWeather";
-import type { HourlyDetails } from "@/types/weather";
+import type { DailyForecast, HourlyDetails } from "@/types/weather";
 import { capitalize, formatTime } from "./common";
 
 export const parseForecastResponse = (forecastEntries
-    : Forecast5Response) => {
+    : Forecast5Response): DailyForecast[] => {
 
     const groupedForecastEntries: Map<string, ForecastEntry[]> = getGroupedForecastEntries(forecastEntries.list)
 
 
 
-    const forecastSummary: any = []
+    const dailyForecasts: DailyForecast[] = []
     groupedForecastEntries.forEach((value, key) => {
 
         const date = new Date(key)
@@ -19,7 +19,7 @@ export const parseForecastResponse = (forecastEntries
         const temperatures = value.map(item => item.main.temp)
         const maxTemperature = Math.round(Math.max(...temperatures))
         const minTemperature = Math.round(Math.min(...temperatures))
-        forecastSummary.push({
+        dailyForecasts.push({
             date,
             dayOfWeek: getDayOfTheWeek(date),
             formattedDay: date.toLocaleDateString('en-GB'),
@@ -31,11 +31,11 @@ export const parseForecastResponse = (forecastEntries
     })
 
 
-    return forecastSummary;
+    return dailyForecasts;
 }
 
 
-const getDayOfTheWeek = (date: Date) => {
+const getDayOfTheWeek = (date: Date): string => {
     const today = new Date()
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -62,7 +62,7 @@ export function isSameDay(date1: Date, date2: Date): boolean {
     );
 }
 
-const getGroupedForecastEntries = (forecastEntries: ForecastEntry[]) => {
+const getGroupedForecastEntries = (forecastEntries: ForecastEntry[]): Map<string, ForecastEntry[]> => {
     let groupedEntries: Map<string, ForecastEntry[]> = new Map()
     forecastEntries.reduce((grouped, item) => {
         const key = getKey(item.dt_txt)

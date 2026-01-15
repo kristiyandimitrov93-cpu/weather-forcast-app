@@ -48,9 +48,6 @@ function App() {
   }
 
 
-
-
-
   return (
     <>
       <div className="flex flex-col h-dvh overflow-hidden">
@@ -85,7 +82,7 @@ function App() {
 
 
         <div className="flex-1 overflow-hidden p-4">
-          {!isWeatherLoading && data && <Forecast weatherSummaries={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
+          {!isWeatherLoading && data && <Forecast dailyForecasts={data} selectedDayIndex={selectedDayIndex} onHandleSelectDay={handleSelectDay} />}
         </div>
 
 

@@ -1,13 +1,14 @@
 import { getWeatherIconUrl } from "@/api/openWeather";
 import { Card, CardContent } from "@/components/ui/card";
+import type { DailyForecast } from "@/types/weather";
 
-interface DayCardProps {
-    forecast: any;
+interface DailyForecastProps {
+    forecast: DailyForecast;
     isSelected: boolean;
     onClick: () => void;
 }
 
-export const WeatherCard = ({ forecast, isSelected, onClick }: DayCardProps) => {
+export const DailyForecastCard = ({ forecast, isSelected, onClick }: DailyForecastProps) => {
     const { dayOfWeek, formattedDay, maxTemperature, minTemperature, mainWeather } =
         forecast;
 
