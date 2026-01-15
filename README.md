@@ -10,17 +10,13 @@ A sleek, interactive weather forecast app built with **React + TypeScript**. Eas
 - ⏰ **Hourly Forecast** — Click on a day to explore hourly temperature, "feels like", and conditions.
 - 📱 **Responsive Design** — Optimized for both desktop and mobile.
 
-## 🖼️ Preview
-
-Coming soon...
-
 ## ⚙️ Tech Stack
 
 - **React** + **TypeScript**
 - **Custom Hooks** for geolocation and weather data
 - **OpenWeatherMap API**
-- Tailwind CSS (assumed from class names)
-- Modular component structure
+- **shadcn/ui** components
+- Tailwind CSS
 
 ## 🧠 Components Overview
 
@@ -79,7 +75,10 @@ Then open http://localhost:5173 in your browser.
 ## 📦 TODO / Improvements
 
 -  **Add more unit and integration tests**
+-  **Enhanced input validation**
 -  **Better error handling**
+-  **Add more detailed view for hourly details** 
+- **Enhanced city search** (Paris,France vs Paris,Ontario)
 -  **Add unit conversion** (Celsius ↔ Fahrenheit)
 - **Add map integration** for location preview
 - **Add charts** for temperature trends
